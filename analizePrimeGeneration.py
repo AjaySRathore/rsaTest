@@ -2,6 +2,7 @@ import os
 from zeroshot import randomPrime1 as zsRP1, randomPrime2 as zsRP2
 from oneshotRSA import osRandomPrime1 as osRP1, osRandomPrime2 as osRP2
 from fewshotCoT import randomPrime1 as fsCOTRP1
+from zeroshot.llama2 import randomPrime2 as zsLLRP2
 import tqdm
 from time import sleep
 import time
@@ -47,6 +48,22 @@ print(f'Starting Program')
 
 
 if __name__ == "__main__":
+
+    print(f'Generating for {zsLLRP2.__name__}')
+    start = time.time()
+    keys = [zsLLRP2.get_random_prime_number(2**16) for _ in tqdm.tqdm(range(NUM_PRIME_GEN))]
+    end = time.time()
+    print(f'Checking duplicates for {zsLLRP2.__name__}')
+    duplicates = find_duplicate_num(keys, 'generatedKeys/llama2' + zsLLRP2.__name__.replace(".", ""), end-start)
+    print(f'Duplicates found {len(duplicates)} for {zsLLRP2.__name__}')
+    print(duplicates)
+    del keys 
+    del duplicates
+    sleep(10)
+    print(f'+'* 80)
+    print(f'-'*80)
+    
+
     print(f'Starting Program')
     for generator in PRIME_GENERATORS:
         print(f'Generating for {generator.__name__}')
